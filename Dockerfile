@@ -17,7 +17,7 @@ RUN npm install
 
 # Copy frontend build into backend/public
 RUN mkdir -p /app/backend/public
-RUN cp -r dist/* /app/backend/public/
+#RUN cp -r dist/* /app/backend/public/
 
 # --- Final run step ---
 WORKDIR /app/backend
