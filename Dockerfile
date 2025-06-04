@@ -28,7 +28,7 @@ RUN npm install
 RUN npm install better-sqlite3
 
 # Copy frontend build output into backend's public
-#COPY --from=frontend-builder /app/frontend/dist ./public/
+COPY --from=frontend-builder /app/backend/public ./backend/public/
 
 EXPOSE 3000
 
