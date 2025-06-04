@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import  './App.css';
+import './App.css';
 
 function App() {
   const [tasks, setTasks] = useState([]);
@@ -21,10 +21,9 @@ function App() {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ title: newTitle.trim() }),
     });
-
     if (res.ok) {
       const created = await res.json();
-      setTasks(tasks => [...tasks, created]);
+      setTasks((tasks) => [...tasks, created]);
       setNewTitle('');
     }
   };
@@ -38,38 +37,45 @@ function App() {
     }
   };
 
-const handleDelete = async (id) => {
-  const res = await fetch(`/api/tasks/${id}`, { method: 'DELETE' });
-  if (res.ok) {
-    setTasks(tasks => tasks.filter(t => t.id !== id));
-  }
-};
+  const handleDelete = async (id) => {
+    const res = await fetch(`/api/tasks/${id}`, { method: 'DELETE' });
+    if (res.ok) {
+      setTasks(tasks => tasks.filter(t => t.id !== id));
+    }
+  };
 
- return (
-  <div className="app">
-    <h1>Tasks</h1>
-    <form onSubmit={handleSubmit}>
-      <input
-        value={newTitle}
-        onChange={(e) => setNewTitle(e.target.value)}
-        placeholder="New task title"
-        required
-      />
-      <button type="submit">Add</button>
-    </form>
-    {tasks.length === 0 ? (
-      <p>No tasks found.</p>
-    ) : (
-      <ul>
-        {tasks.map(task => (
-          <li key={task.id} className={task.completed ? "completed" : ""}>
-            <span onClick={() => toggleTask(task.id)}>{task.title}</span>
-            <button onClick={() => deleteTask(task.id)}>Delete</button>
-          </li>
-        ))}
-      </ul>
-    )}
-  </div>
-);
+  return (
+    <div className="app">
+      <h1>Tasks</h1>
+      <form onSubmit={handleSubmit} className="task-form">
+        <input
+          value={newTitle}
+          onChange={(e) => setNewTitle(e.target.value)}
+          placeholder="New task title"
+          required
+        />
+        <button type="submit">Add</button>
+      </form>
+
+      {tasks.length === 0 ? (
+        <p>No tasks found.</p>
+      ) : (
+        <ul className="task-list">
+          {tasks.map(task => (
+            <li key={task.id} className="task-item">
+              <span className={task.completed ? 'done' : ''}>{task.title}</span>
+              <div className="buttons">
+                {!task.completed && (
+                  <button onClick={() => handleComplete(task.id)}>✔️</button>
+                )}
+                <button onClick={() => handleDelete(task.id)}>🗑️</button>
+              </div>
+            </li>
+          ))}
+        </ul>
+      )}
+    </div>
+  );
 }
+
 export default App;
