@@ -40,6 +40,20 @@ app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, 'public/index.html'));
 });
 
+app.use(express.json()); // Ensure you have this to parse JSON bodies
+
+app.post('/api/tasks', (req, res) => {
+  const { title } = req.body;
+  if (!title) return res.status(400).json({ error: 'Title required' });
+
+  const stmt = db.prepare('INSERT INTO tasks (title, completed) VALUES (?, ?)');
+  const info = stmt.run(title, 0);
+
+  const newTask = { id: info.lastInsertRowid, title, completed: false };
+  res.status(201).json(newTask);
+});
+
+
 // Start server
 app.listen(3000, '0.0.0.0', () => {
   console.log('Virtuoso listening on http://0.0.0.0:3000');
