@@ -55,7 +55,12 @@ const handleComplete = async (id) => {
         <ul>
           {tasks.map(task => (
             <li key={task.id}>
-              {task.title} {task.completed ? '✔️' : ''}
+              <span style={{ textDecoration: task.completed ? 'line-through' : 'none' }}>
+                {task.title}
+              </span>
+              {!task.completed && (
+                <button onClick={() => handleComplete(task.id)}>Mark as Completed</button>
+              )}
             </li>
           ))}
         </ul>
