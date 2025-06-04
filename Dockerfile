@@ -30,4 +30,4 @@ COPY --from=frontend-builder /app/frontend/dist /app/backend/public
 EXPOSE 3000
 
 # Run the backend
-CMD ["node", "index.js"]
+CMD ["node", "server.js"]
