@@ -17,6 +17,7 @@ WORKDIR /app
 
 # Copy backend source
 COPY backend/ backend/
+COPY backend /app/backend
 COPY data/ data/
 
 # Install backend deps
