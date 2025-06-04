@@ -1,7 +1,7 @@
 function App() {
   return (
-    <div>
-      <h1>Virtuoso is ALIVE 🎵</h1>
+    <div style={{ padding: "2rem", fontSize: "2rem", color: "blue" }}>
+      🚀 Vite + React + Virtuoso works!
     </div>
   );
 }
