@@ -65,6 +65,13 @@ app.post('/api/tasks/:id/complete', (req, res) => {
   res.status(200).json({ id: Number(id), completed: true });
 });
 
+app.delete('/api/tasks/:id', (req, res) => {
+  const { id } = req.params;
+  const stmt = db.prepare('DELETE FROM tasks WHERE id = ?');
+  stmt.run(id);
+  res.status(204).end();
+});
+
 // Start server
 app.listen(3000, '0.0.0.0', () => {
   console.log('Virtuoso listening on http://0.0.0.0:3000');

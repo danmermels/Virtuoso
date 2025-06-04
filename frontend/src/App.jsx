@@ -37,6 +37,13 @@ function App() {
     }
   };
 
+const handleDelete = async (id) => {
+  const res = await fetch(`/api/tasks/${id}`, { method: 'DELETE' });
+  if (res.ok) {
+    setTasks(tasks => tasks.filter(t => t.id !== id));
+  }
+};
+
   return (
     <div style={{ padding: '1rem', fontFamily: 'sans-serif' }}>
       <h1>Tasks</h1>
@@ -56,12 +63,13 @@ function App() {
         <ul>
           {tasks.map(task => (
             <li key={task.id}>
-              <span style={{ textDecoration: task.completed ? 'line-through' : 'none' }}>
+              <span style={{ textDecoration: task.completed ? 'line-through' : 'none', marginRight: '1rem' }}>
                 {task.title}
               </span>
               {!task.completed && (
-                <button onClick={() => handleComplete(task.id)}>Mark as Completed</button>
+                <button onClick={() => handleComplete(task.id)}>✔️ Complete</button>
               )}
+              <button onClick={() => handleDelete(task.id)} style={{ marginLeft: '0.5rem' }}>🗑️ Delete</button>
             </li>
           ))}
         </ul>
