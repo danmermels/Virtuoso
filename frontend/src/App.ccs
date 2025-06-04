@@ -51,3 +51,7 @@
 .task-item .buttons button {
   margin-left: 0.5rem;
 }
+
+body {
+  background-color: pink !important;
+}
