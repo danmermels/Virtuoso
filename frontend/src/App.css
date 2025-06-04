@@ -1,8 +1,16 @@
 .app {
-  padding: 1rem;
-  font-family: sans-serif;
+  background: white;
+  padding: 2rem;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   max-width: 600px;
-  margin: auto;
+  margin: 3rem auto;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+}
+
+h1 {
+  text-align: center;
+  margin-bottom: 1.5rem;
 }
 
 .task-form {
@@ -12,13 +20,21 @@
 }
 
 .task-form input {
-  flex: 1;
-  padding: 0.5rem;
-  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  background: white;
 }
 
 .task-form button {
-  padding: 0.5rem 1rem;
+  background: #007bff;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.task-form button:hover {
+  background: #0056b3;
 }
 
 .task-list {
@@ -29,7 +45,25 @@
 
 
 .task-buttons button {
-  margin-left: 0.5rem;
+  background: #6c757d;
+  color: white;
+  border: none;
+  padding: 0.4rem 0.7rem;
+  border-radius: 4px;
+  font-size: 0.9rem;
+  cursor: pointer;
+}
+
+.task-buttons button:first-child {
+  background: #28a745; /* green for complete */
+}
+
+.task-buttons button:last-child {
+  background: #dc3545; /* red for delete */
+}
+
+.task-buttons button:hover {
+  opacity: 0.85;
 }
 
 .task-item {
@@ -53,5 +87,7 @@
 }
 
 body {
-  background-color: pink !important;
+  background: #f0f2f5;
+  margin: 0;
+  padding: 0;
 }
