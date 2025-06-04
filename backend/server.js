@@ -36,9 +36,9 @@ app.post('/api/tasks', (req, res) => {
 });
 
 // Fallback to frontend for SPA routing
-//app.get('*', (req, res) => {
-//  res.sendFile(path.join(__dirname, 'public/index.html'));
-//});
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public/index.html'));
+});
 
 // Start server
 app.listen(3000, '0.0.0.0', () => {
