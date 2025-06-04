@@ -1,9 +1,14 @@
+import { useEffect } from 'react';
+
 function App() {
-  return (
-    <div style={{ padding: "2rem", fontSize: "2rem", color: "blue" }}>
-      🚀 Vite + React + Virtuoso works!
-    </div>
-  );
+  useEffect(() => {
+    fetch('/api/tasks')
+      .then(res => res.json())
+      .then(data => console.log('Tasks:', data))
+      .catch(err => console.error('API error:', err));
+  }, []);
+
+  return <h1>Hello from frontend</h1>;
 }
 
 export default App;
