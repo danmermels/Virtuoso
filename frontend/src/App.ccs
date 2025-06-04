@@ -45,7 +45,10 @@
 
 .done {
   text-decoration: line-through;
-  color: gray;
+  color: red;
+  font-style: italic;
+  font-weight: bold;
+  font-size: 1.2rem;
 }
 
 .task-item .buttons button {
