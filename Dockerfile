@@ -2,28 +2,34 @@
 FROM node:18 AS frontend-builder
 WORKDIR /app/frontend
 
+# Install frontend deps
 COPY frontend/package*.json ./
 RUN npm install
 
-COPY frontend/ ./
+# Copy frontend source files
+COPY frontend/ .
+
+# Build frontend into backend/public
 RUN npm run build
 
-# --- Stage 2: Backend ---
+# --- Stage 2: Backend setup ---
 FROM node:18
 WORKDIR /app
 
+# Copy backend code
 COPY backend/package*.json ./backend/
 COPY backend/server.js ./backend/
 COPY backend/src ./backend/src/
 COPY backend/db ./backend/db/
 COPY data/ ./data/
 
+# Install backend deps
 WORKDIR /app/backend
 RUN npm install
 RUN npm install better-sqlite3
 
-# 👇 Ensure built frontend is copied properly
-COPY --from=frontend-builder /app/backend/public ./backend/public
+# Copy built frontend from stage 1 into public dir
+COPY --from=frontend-builder /app/backend/public ./public/
 
 EXPOSE 3000
 CMD ["node", "server.js"]
