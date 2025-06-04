@@ -61,18 +61,20 @@ function App() {
         <p>No tasks found.</p>
       ) : (
         <ul className="task-list">
-          {tasks.map(task => (
-            <li key={task.id} className="task-item">
-              <span className={task.completed ? 'done' : ''}>{task.title}</span>
-              <div className="buttons">
-                {!task.completed && (
-                  <button onClick={() => handleComplete(task.id)}>✔️</button>
-                )}
-                <button onClick={() => handleDelete(task.id)}>🗑️</button>
-              </div>
-            </li>
-          ))}
-        </ul>
+  {tasks.map(task => (
+    <li key={task.id} className="task-item">
+      <span className={task.completed ? 'done' : ''}>
+        {task.title}
+      </span>
+      <span className="task-buttons">
+        {!task.completed && (
+          <button onClick={() => handleComplete(task.id)}>Complete</button>
+        )}
+        <button onClick={() => handleDelete(task.id)}>Delete</button>
+      </span>
+    </li>
+  ))}
+</ul>
       )}
     </div>
   );
