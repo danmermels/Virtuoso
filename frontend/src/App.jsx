@@ -62,14 +62,9 @@ const handleDelete = async (id) => {
     ) : (
       <ul>
         {tasks.map(task => (
-          <li key={task.id}>
-            <span style={{ textDecoration: task.completed ? 'line-through' : 'none' }}>
-              {task.title}
-            </span>
-            {!task.completed && (
-              <button onClick={() => handleComplete(task.id)}>Complete</button>
-            )}
-            <button onClick={() => handleDelete(task.id)}>Delete</button>
+          <li key={task.id} className={task.completed ? "completed" : ""}>
+            <span onClick={() => toggleTask(task.id)}>{task.title}</span>
+            <button onClick={() => deleteTask(task.id)}>Delete</button>
           </li>
         ))}
       </ul>
