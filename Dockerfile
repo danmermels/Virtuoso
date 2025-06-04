@@ -10,10 +10,10 @@ WORKDIR /app/backend
 RUN npm install
 
 # --- Frontend ---
-WORKDIR /app/frontend
-COPY frontend frontend/
-RUN npm install
-RUN npm run build
+#WORKDIR /app/frontend
+#COPY frontend frontend/
+#RUN npm install
+#RUN npm run build
 
 # Copy frontend build into backend/public
 RUN mkdir -p /app/backend/public
