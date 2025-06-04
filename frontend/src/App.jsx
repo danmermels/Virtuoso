@@ -95,4 +95,5 @@ const handleDelete = async (id) => {
     )}
   </div>
 );
+}
 export default App;
