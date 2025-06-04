@@ -23,6 +23,9 @@ COPY data/ data/
 WORKDIR /app/backend
 RUN npm install
 
+#install Better-SQLite3
+RUN npm install better-sqlite3
+
 # Copy built frontend into backend public folder
 COPY --from=frontend-builder /app/frontend/dist /app/backend/public
 
