@@ -28,6 +28,15 @@ const handleSubmit = async (e) => {
   }
 };
 
+const handleComplete = async (id) => {
+  const res = await fetch(`/api/tasks/${id}/complete`, { method: 'POST' });
+  if (res.ok) {
+    setTasks(tasks =>
+      tasks.map(t => (t.id === id ? { ...t, completed: true } : t))
+    );
+  }
+};
+
   return (
     <div style={{ padding: '1rem', fontFamily: 'sans-serif' }}>
       <h1>Tasks</h1>
@@ -50,6 +59,18 @@ const handleSubmit = async (e) => {
             </li>
           ))}
         </ul>
+<ul>
+  {tasks.map(task => (
+    <li key={task.id}>
+      <span style={{ textDecoration: task.completed ? 'line-through' : 'none' }}>
+        {task.title}
+      </span>
+      {!task.completed && (
+        <button onClick={() => handleComplete(task.id)}>Mark as Completed</button>
+      )}
+    </li>
+  ))}
+</ul>
       )}
     </div>
   );

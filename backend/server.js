@@ -40,7 +40,6 @@ app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, 'public/index.html'));
 });
 
-app.use(express.json()); // Ensure you have this to parse JSON bodies
 
 app.post('/api/tasks', (req, res) => {
   const { title } = req.body;
@@ -53,6 +52,18 @@ app.post('/api/tasks', (req, res) => {
   res.status(201).json(newTask);
 });
 
+app.post('/api/tasks/:id/complete', (req, res) => {
+  const { id } = req.params;
+
+  const stmt = db.prepare('UPDATE tasks SET completed = 1 WHERE id = ?');
+  const info = stmt.run(id);
+
+  if (info.changes === 0) {
+    return res.status(404).json({ error: 'Task not found' });
+  }
+
+  res.status(200).json({ id: Number(id), completed: true });
+});
 
 // Start server
 app.listen(3000, '0.0.0.0', () => {
