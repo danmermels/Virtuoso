@@ -2,10 +2,14 @@
 FROM node:18 AS frontend-builder
 WORKDIR /app/frontend
 
+# Install frontend deps
 COPY frontend/package*.json ./
 RUN npm install
 
+# Copy source files (after deps to keep cache clean)
 COPY frontend/ ./
+
+# Build frontend
 RUN npm run build
 
 
