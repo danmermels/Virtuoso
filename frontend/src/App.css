@@ -21,6 +21,8 @@ body {
   flex-direction: column;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
   box-sizing: border-box;  /* Ensures padding doesn't overflow width */
+  margin: 2rem auto;      /* Top & bottom margin to expose grey bg */
+  padding: 1rem;
 }
 
 @media (max-width: 600px) {
@@ -80,8 +82,11 @@ h1 {
   background: #f8f8f8;
   position: fixed;
   bottom: 0;
-  left: 0;
+  left: 50%;
+  transform: translateX(-50%);  /* Center horizontally */
   width: 100%;
+  max-width: 1000px;            /* Match .app max-width */
+  margin: 0 auto;
   box-sizing: border-box;
   gap: 0.5rem;
   align-items: center;
