@@ -17,8 +17,8 @@ db.prepare(`
   CREATE TABLE IF NOT EXISTS tasks (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     title TEXT NOT NULL,
-    completed INTEGER NOT NULL DEFAULT 0,
-	mode INTEGER NOT NULL DEFAULT 0
+    completed BOOLEAN DEFAULT 0,
+	mode BOOLEAN DEFAULT 0
   )
 `).run();
 
