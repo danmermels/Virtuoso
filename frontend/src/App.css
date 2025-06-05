@@ -1,7 +1,7 @@
 /* Main white box container */
 .app {
   background: white;
-  width: 50%;
+  width: 80%;
   max-width: 600px;
   min-height: 100vh;
   display: flex;
@@ -11,13 +11,13 @@
 
 @media (max-width: 600px) {
   .app {
-    width: 95%;
+    width: 100%;
   }
 }
 
 /* Background and centering */
 body {
-  margin: 0;
+  margin: 10;
   background-color: #e0e0e0; /* light grey */
   display: flex;
   justify-content: center;
