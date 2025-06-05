@@ -18,7 +18,7 @@ db.prepare(`
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     title TEXT NOT NULL,
     completed INTEGER NOT NULL DEFAULT 0
-	mode TEXT NOT NULL DEFAULT 'monthly'
+	"mode" TEXT NOT NULL DEFAULT 'monthly'
   )
 `).run();
 

@@ -7,7 +7,7 @@ db.exec(`
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     title TEXT NOT NULL,
     done BOOLEAN DEFAULT 0
-	mode TEXT NOT NULL CHECK(type  IN ('daily', 'monthly')) DEFAULT 'monthly'
+	"mode" TEXT NOT NULL CHECK(type  IN ('daily', 'monthly')) DEFAULT 'monthly'
   );
 `);
 
