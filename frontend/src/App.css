@@ -2,7 +2,7 @@
   display: flex;
   flex-direction: column;
   height: 100vh;
-  max-width: 30rem
+  width: 10rem
   font-family: sans-serif;
 }
 
