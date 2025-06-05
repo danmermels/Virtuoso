@@ -69,7 +69,7 @@ function App() {
   {tasks.map(task => (
     <li key={task.id} className="task-item">
       <span className={task.completed ? 'done' : ''}>
-        {task.title}
+        [{task.modo === 1 ? 'monthly' : 'Dayly'}] {task.title}
       </span>
       <span className="task-buttons">
         {!task.completed && (
