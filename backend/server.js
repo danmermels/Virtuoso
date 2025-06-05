@@ -5,6 +5,9 @@ const path = require('path');
 const app = express();
 const db = new Database(path.join(__dirname, 'data.db'));
 
+const safePoints = points ?? 1; // defaults to 1 if undefined or null
+res.json({ id: result.lastInsertRowid, title, completed: 0, mode: mode === 1 ? 1 : 0, points: safePoints });
+
 // Serve frontend
 app.use(express.static(path.join(__dirname, 'public')));
 
@@ -33,8 +36,8 @@ app.get('/api/tasks', (req, res) => {
 app.post('/api/tasks', (req, res) => {
   const { title, mode, points } = req.body;
   const result = db
-    .prepare('INSERT INTO tasks (title, completed, mode, points) Values (?,?,?,?)')
-    .run(title, 0, mode === 1 ? 1 : 0, points || 1);
+    .prepare('INSERT INTO tasks (title, completed, mode, points) VALUES (?, ?, ?, ?)')
+    .run(title, 0, mode === 1 ? 1 : 0, points ?? 1);
   
   res.json({ id: result.lastInsertRowid, title, completed: 0, mode: mode === 1 ? 1 : 0, points || 1 });
 });
