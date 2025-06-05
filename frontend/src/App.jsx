@@ -4,6 +4,7 @@ import './App.css';
 function App() {
   const [tasks, setTasks] = useState([]);
   const [newTitle, setNewTitle] = useState('');
+  const [modo, setModo] = useState(0); // 0 = daily, 1 = monthly
 
   useEffect(() => {
     fetch('/api/tasks')
@@ -19,11 +20,11 @@ function App() {
     const res = await fetch('/api/tasks', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ title: newTitle.trim() }),
+      body: JSON.stringify({ title: newTitle.trim(), modo }),
     });
     if (res.ok) {
       const created = await res.json();
-      setTasks((tasks) => [...tasks, created]);
+      setTasks((tasks) => [...tasks, { ...created, modo ]);
       setNewTitle('');
     }
   };
@@ -47,15 +48,19 @@ function App() {
   return (
     <div className="app">
       <h1>Tasks</h1>
-      <form onSubmit={handleSubmit} className="task-form">
-        <input
-          value={newTitle}
-          onChange={(e) => setNewTitle(e.target.value)}
-          placeholder="New task title"
-          required
-        />
-        <button type="submit">Add</button>
-      </form>
+	 <form onSubmit={handleSubmit} className="task-form">
+ 	   <input
+		 value={newTitle}
+	   	 onChange={(e) => setNewTitle(e.target.value)}
+		 placeholder="New task title"
+		 required
+	   />
+	   <select value={modo} onChange={(e) => setModo(Number(e.target.value))}>
+		 <option value={0}>Daily</option>
+		 <option value={1}>Monthly</option>
+	   </select>
+	   <button type="submit">Add</button>
+	 </form>
 
       {tasks.length === 0 ? (
         <p>No tasks found.</p>
