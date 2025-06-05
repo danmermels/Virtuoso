@@ -99,14 +99,17 @@ h2 {
 .task-form input[type="text"] {
   flex: 2;
   min-width: 0;
+  font-size: 1.1rem;     /* Increase text size */
 }
 
 .task-form input[type="number"] {
   width: 4ch;
+  font-size: 1.1rem;     /* Increase text size */
 }
 
 .points-input {
   width: 4ch;
+  font-size: 1.1rem;     /* Increase text size */
 }
 
 .mode-checkbox {
