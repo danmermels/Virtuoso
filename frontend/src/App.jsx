@@ -26,9 +26,10 @@ function App() {
 
     if (res.ok) {
       const created = await res.json();
-      setTasks(tasks => [...tasks, created]);
+      setTasks((tasks) => [...tasks, created]);
       setNewTitle('');
       setPoints(1);
+      setMode(0);
     }
   };
 
@@ -52,41 +53,18 @@ function App() {
     <div className="app">
       <h1>Tasks</h1>
 
-      <form onSubmit={handleSubmit} className="task-form">
-        <input
-          value={newTitle}
-          onChange={(e) => setNewTitle(e.target.value)}
-          placeholder="New task title"
-          required
-        />
-        <select value={mode} onChange={(e) => setMode(Number(e.target.value))}>
-          <option value={0}>Daily</option>
-          <option value={1}>Monthly</option>
-        </select>
-        <input
-          type="number"
-          value={points}
-          onChange={(e) => setPoints(Number(e.target.value))}
-          placeholder="Points"
-          min={1}
-        />
-        <button type="submit">Add</button>
-      </form>
-
-      {tasks.length === 0 ? (
-        <p>No tasks found.</p>
-      ) : (
-        [0, 1].map(groupMode => (
-          <div key={groupMode}>
-            <h2>{groupMode === 0 ? 'Daily Tasks' : 'Monthly Tasks'}</h2>
+      <div className="task-list-container">
+        {[0, 1].map(mode => (
+          <div key={mode}>
+            <h2>{mode === 0 ? 'Daily Tasks' : 'Monthly Tasks'}</h2>
             <ul className="task-list">
               {tasks
-                .filter(task => task.mode === groupMode)
+                .filter(task => task.mode === mode)
                 .map(task => (
                   <li key={task.id} className="task-item">
                     <span className={task.completed ? 'done' : ''}>
                       {task.title}
-                      <span className="task-points"> [{task.points} pts]</span>
+                      <span className="task-points">[{task.points} pts]</span>
                     </span>
                     <span className="task-buttons">
                       {!task.completed && (
@@ -98,8 +76,33 @@ function App() {
                 ))}
             </ul>
           </div>
-        ))
-      )}
+        ))}
+      </div>
+
+      <form onSubmit={handleSubmit} className="task-form">
+        <input
+          value={newTitle}
+          onChange={(e) => setNewTitle(e.target.value)}
+          placeholder="New task title"
+          required
+        />
+        <input
+          type="number"
+          value={points}
+          onChange={(e) => setPoints(Number(e.target.value))}
+          placeholder="Pts"
+          className="points-input"
+        />
+        <label className="mode-checkbox">
+          <input
+            type="checkbox"
+            checked={mode === 1}
+            onChange={(e) => setMode(e.target.checked ? 1 : 0)}
+          />
+          Monthly
+        </label>
+        <button type="submit">Add</button>
+      </form>
     </div>
   );
 }
