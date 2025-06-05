@@ -30,27 +30,17 @@ app.get('/api/tasks', (req, res) => {
 
 // POST /api/tasks - add a task
 app.post('/api/tasks', (req, res) => {
-  const { title } = req.body;
+  const { title, modo } = req.body;
   if (!title) return res.status(400).json({ error: 'Title is required' });
-  const result = db.prepare('INSERT INTO tasks (title) VALUES (?)').run(title);
-  res.json({ id: result.lastInsertRowid, title, completed: 0 });
+
+  const result = db.prepare( 'INSERT INTO tasks (title, completed, modo) VALUES (?, ?, ?)').run(title, 0, modo === 1 ? 1 : 0);
+
+  res.json({ id: result.lastInsertRowid, title, completed: 0, modo: modo === 1 ? 1 : 0 });
 });
 
 // Fallback to frontend for SPA routing
 app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, 'public/index.html'));
-});
-
-
-app.post('/api/tasks', (req, res) => {
-  const { title } = req.body;
-  if (!title) return res.status(400).json({ error: 'Title required' });
-
-  const stmt = db.prepare('INSERT INTO tasks (title, completed) VALUES (?, ?)');
-  const info = stmt.run(title, 0);
-
-  const newTask = { id: info.lastInsertRowid, title, completed: false };
-  res.status(201).json(newTask);
 });
 
 app.post('/api/tasks/:id/complete', (req, res) => {
