@@ -1,12 +1,12 @@
 /* Main white box container */
 .app {
   background: white;
-  width: 80%;
+  width: 100%;
   max-width: 1200px;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
 }
 
 @media (max-width: 600px) {
