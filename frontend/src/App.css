@@ -1,7 +1,7 @@
 /* Background and centering */
 body {
-  margin: 1;
-  background-color: #71797E; /* light grey */
+  margin: 0;
+  background-color: #e0e0e0; /* light grey */
   display: flex;
   justify-content: center;
   align-items: flex-start;
@@ -12,18 +12,17 @@ body {
 /* Main white box container */
 .app {
   background: white;
-  min-height: 98vh;
+  width: 50%;
+  max-width: 600px;
+  min-height: 100vh;
   display: flex;
   flex-direction: column;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-  
-  width: 70%;
-  max-width: 900px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
 @media (max-width: 600px) {
   .app {
-    width: 100%;
+    width: 95%;
   }
 }
 
@@ -39,6 +38,7 @@ h1 {
   padding: 0 1rem;
 }
 
+/* Task items */
 .task-list {
   list-style: none;
   padding: 0;
@@ -57,7 +57,6 @@ h1 {
   font-size: 0.9em;
   color: #666;
 }
-
 
 .done {
   text-decoration: line-through;
@@ -92,10 +91,6 @@ h1 {
 }
 
 .task-form input[type="number"] {
-  width: 4ch;
-}
-
-.points-input {
   width: 4ch;
 }
 
