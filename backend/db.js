@@ -7,6 +7,7 @@ db.exec(`
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     title TEXT NOT NULL,
     done BOOLEAN DEFAULT 0
+	modo BOOLEAN DEFAULT 0
   );
 `);
 
