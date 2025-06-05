@@ -18,7 +18,8 @@ db.prepare(`
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     title TEXT NOT NULL,
     completed BOOLEAN DEFAULT 0,
-	mode BOOLEAN DEFAULT 0
+	mode BOOLEAN DEFAULT 0,
+	points INTEGER DEFAULT 10
   )
 `).run();
 
