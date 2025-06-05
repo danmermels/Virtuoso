@@ -12,12 +12,14 @@ body {
 /* Main white box container */
 .app {
   background: white;
-  width: 100%;
-  max-width: 1200px;
+  width: 90%;              /* Use a percentage of screen width */
+  max-width: 800px;        /* Reasonable max width for desktops */
   min-height: 100vh;
-  display:flex;
-  flex-direction: column;
+  margin: 2rem auto;       /* Centers the box with some margin */
+  display: block;          /* Prevent flex from collapsing layout */
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+  padding: 1rem;           /* Optional: gives space inside the box */
+  box-sizing: border-box;  /* Ensures padding doesn't overflow width */
 }
 
 @media (max-width: 600px) {
