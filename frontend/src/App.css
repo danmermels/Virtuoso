@@ -4,27 +4,22 @@ body {
   background-color: #71797E; /* light grey */
   display: flex;
   justify-content: center;
-  align-items: flex-start;
-  min-height: 100vh;
+  align-items: center;
+  height: 100vh; /* changed from min-height */
   font-family: sans-serif;
+  overflow: hidden; /* prevents scrollbar */
 }
 
 /* Main white box container */
 .app {
   background: white;
-  width: 90vw;              /* Use a percentage of screen width */
-  height: 100vh;
-  overflow: auto;
-  max-height: 90vw;
-  max-width: 1000px;        /* Reasonable max width for desktops */
-  min-height: 100vh;
-  margin: 1rem auto;       /* Centers the box with some margin */
-  display: flex;          /* Prevent flex from collapsing layout */
+  width: 100%;
+  max-width: 1200px;
+  height: 100vh; /* changed from min-height */
+  display: flex;
   flex-direction: column;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-  box-sizing: border-box;  /* Ensures padding doesn't overflow width */
-  margin: 2rem auto;      /* Top & bottom margin to expose grey bg */
-  padding: 1rem;
+  overflow: hidden; /* clip internal scrolls */
 }
 
 @media (max-width: 600px) {
@@ -47,8 +42,7 @@ h2 {
 .task-list-container {
   flex: 1;
   overflow-y: auto;
-  padding: 0 1rem 6rem;
-  box-sizing: border-box;
+  padding: 1rem;
 }
 
 .task-list {
