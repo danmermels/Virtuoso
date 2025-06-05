@@ -5,24 +5,18 @@ const path = require('path');
 const app = express();
 const db = new Database(path.join(__dirname, 'data.db'));
 
-const safePoints = points ?? 1; // defaults to 1 if undefined or null
-res.json({ id: result.lastInsertRowid, title, completed: 0, mode: mode === 1 ? 1 : 0, points: safePoints });
-
 // Serve frontend
 app.use(express.static(path.join(__dirname, 'public')));
-
-// API
 app.use(express.json());
 
-// ... your routes ...
-// ensure table exists
+// Ensure table exists
 db.prepare(`
   CREATE TABLE IF NOT EXISTS tasks (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     title TEXT NOT NULL,
     completed BOOLEAN DEFAULT 0,
-	mode BOOLEAN DEFAULT 0,
-	points INTEGER DEFAULT 10
+    mode BOOLEAN DEFAULT 0,
+    points INTEGER DEFAULT 10
   )
 `).run();
 
@@ -35,21 +29,27 @@ app.get('/api/tasks', (req, res) => {
 // POST /api/tasks - add a task
 app.post('/api/tasks', (req, res) => {
   const { title, mode, points } = req.body;
-  const result = db
-    .prepare('INSERT INTO tasks (title, completed, mode, points) VALUES (?, ?, ?, ?)')
-    .run(title, 0, mode === 1 ? 1 : 0, points ?? 1);
-  
-  res.json({ id: result.lastInsertRowid, title, completed: 0, mode: mode === 1 ? 1 : 0, points ?? 1 });
+  if (!title) return res.status(400).json({ error: 'Title is required' });
+
+  const safePoints = points !== undefined && points !== null ? points : 1;
+  const safeMode = mode === 1 ? 1 : 0;
+
+  const result = db.prepare(
+    'INSERT INTO tasks (title, completed, mode, points) VALUES (?, ?, ?, ?)'
+  ).run(title, 0, safeMode, safePoints);
+
+  res.json({
+    id: result.lastInsertRowid,
+    title,
+    completed: 0,
+    mode: safeMode,
+    points: safePoints
+  });
 });
 
-// Fallback to frontend for SPA routing
-app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, 'public/index.html'));
-});
-
+// POST /api/tasks/:id/complete - mark task as complete
 app.post('/api/tasks/:id/complete', (req, res) => {
   const { id } = req.params;
-
   const stmt = db.prepare('UPDATE tasks SET completed = 1 WHERE id = ?');
   const info = stmt.run(id);
 
@@ -60,11 +60,17 @@ app.post('/api/tasks/:id/complete', (req, res) => {
   res.status(200).json({ id: Number(id), completed: true });
 });
 
+// DELETE /api/tasks/:id - delete a task
 app.delete('/api/tasks/:id', (req, res) => {
   const { id } = req.params;
   const stmt = db.prepare('DELETE FROM tasks WHERE id = ?');
   stmt.run(id);
   res.status(204).end();
+});
+
+// Fallback to frontend for SPA routing
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public/index.html'));
 });
 
 // Start server
