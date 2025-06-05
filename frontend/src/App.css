@@ -13,6 +13,7 @@ body {
 .app {
   background: white;
   width: 90vw;              /* Use a percentage of screen width */
+  max-height: 90vw;
   max-width: 1000px;        /* Reasonable max width for desktops */
   min-height: 100vh;
   margin: 0 auto;       /* Centers the box with some margin */
