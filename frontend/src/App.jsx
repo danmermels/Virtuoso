@@ -5,6 +5,7 @@ function App() {
   const [tasks, setTasks] = useState([]);
   const [newTitle, setNewTitle] = useState('');
   const [mode, setmode] = useState(0); // 0 = daily, 1 = monthly
+  const [points, setPoints] = useState(1);
 
   useEffect(() => {
     fetch('/api/tasks')
@@ -20,7 +21,7 @@ function App() {
     const res = await fetch('/api/tasks', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ title: newTitle.trim(), mode }),
+      body: JSON.stringify({ title: newTitle.trim(), mode, points }),
     });
     if (res.ok) {
       const created = await res.json();
@@ -60,6 +61,12 @@ function App() {
 		 <option value={1}>Monthly</option>
 	   </select>
 	   <button type="submit">Add</button>
+	   <input
+  type="number"
+  value={points}
+  onChange={(e) => setPoints(Number(e.target.value))}
+  placeholder="Points"
+/>
 	 </form>
 
       {tasks.length === 0 ? (
@@ -76,6 +83,7 @@ function App() {
           <li key={task.id} className="task-item">
             <span className={task.completed ? 'done' : ''}>
               {task.title}
+			  <span className="task-points">[{task.points} pts]</span>
             </span>
             <span className="task-buttons">
               {!task.completed && (
