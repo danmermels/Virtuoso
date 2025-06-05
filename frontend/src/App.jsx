@@ -24,7 +24,7 @@ function App() {
     });
     if (res.ok) {
       const created = await res.json();
-      setTasks((tasks) => [...tasks, { ...created, modo ]);
+      setTasks((tasks) => [...tasks, created]);
       setNewTitle('');
     }
   };
