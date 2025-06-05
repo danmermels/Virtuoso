@@ -1,7 +1,7 @@
 /* Background and centering */
 body {
-  margin: 0;
-  background-color: #e0e0e0; /* light grey */
+  margin: 1;
+  background-color: #71797E; /* light grey */
   display: flex;
   justify-content: center;
   align-items: flex-start;
@@ -12,12 +12,13 @@ body {
 /* Main white box container */
 .app {
   background: white;
-  width: 100%;
-  max-width: 2200px;
   min-height: 98vh;
   display: flex;
   flex-direction: column;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+  
+  width: 70%;
+  max-width: 900px;
 }
 
 @media (max-width: 600px) {
