@@ -13,10 +13,12 @@ body {
 .app {
   background: white;
   width: 90vw;              /* Use a percentage of screen width */
+  height: 100vh;
+  overflow: auto;
   max-height: 90vw;
   max-width: 1000px;        /* Reasonable max width for desktops */
   min-height: 100vh;
-  margin: 0 auto;       /* Centers the box with some margin */
+  margin: 1rem auto;       /* Centers the box with some margin */
   display: flex;          /* Prevent flex from collapsing layout */
   flex-direction: column;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
@@ -85,7 +87,7 @@ h2 {
   padding-bottom: 2rem; /* extra space */
   border-top: 1px solid #ccc;
   background: #f8f8f8;
-  position: fixed;
+  position: sticky;
   bottom: 0;
   left: 50%;
   transform: translateX(-50%);  /* Center horizontally */
@@ -97,7 +99,7 @@ h2 {
   align-items: center;
   justify-content: center;
   flex-wrap: wrap;
-  z-index: 10;
+  z-index: 1;
 }
 
 /* Inputs */
