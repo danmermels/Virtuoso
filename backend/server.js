@@ -30,12 +30,12 @@ app.get('/api/tasks', (req, res) => {
 
 // POST /api/tasks - add a task
 app.post('/api/tasks', (req, res) => {
-  const { title, modo } = req.body;
+  const { title, mode } = req.body;
   if (!title) return res.status(400).json({ error: 'Title is required' });
 
-  const result = db.prepare( 'INSERT INTO tasks (title, completed, modo) VALUES (?, ?, ?)').run(title, 0, modo === 1 ? 1 : 0);
+  const result = db.prepare( 'INSERT INTO tasks (title, completed, mode) VALUES (?, ?, ?)').run(title, 0, mode === 1 ? 1 : 0);
 
-  res.json({ id: result.lastInsertRowid, title, completed: 0, modo: modo === 1 ? 1 : 0 });
+  res.json({ id: result.lastInsertRowid, title, completed: 0, mode: mode === 1 ? 1 : 0 });
 });
 
 // Fallback to frontend for SPA routing

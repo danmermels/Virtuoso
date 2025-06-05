@@ -4,7 +4,7 @@ import './App.css';
 function App() {
   const [tasks, setTasks] = useState([]);
   const [newTitle, setNewTitle] = useState('');
-  const [modo, setModo] = useState(0); // 0 = daily, 1 = monthly
+  const [mode, setmode] = useState(0); // 0 = daily, 1 = monthly
 
   useEffect(() => {
     fetch('/api/tasks')
@@ -20,7 +20,7 @@ function App() {
     const res = await fetch('/api/tasks', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ title: newTitle.trim(), modo }),
+      body: JSON.stringify({ title: newTitle.trim(), mode }),
     });
     if (res.ok) {
       const created = await res.json();
@@ -55,7 +55,7 @@ function App() {
 		 placeholder="New task title"
 		 required
 	   />
-	   <select value={modo} onChange={(e) => setModo(Number(e.target.value))}>
+	   <select value={mode} onChange={(e) => setmode(Number(e.target.value))}>
 		 <option value={0}>Daily</option>
 		 <option value={1}>Monthly</option>
 	   </select>
