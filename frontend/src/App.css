@@ -13,7 +13,7 @@ body {
 .app {
   background: white;
   width: 90%;              /* Use a percentage of screen width */
-  max-width: 800px;        /* Reasonable max width for desktops */
+  max-width: 1800px;        /* Reasonable max width for desktops */
   min-height: 100vh;
   margin: 2rem auto;       /* Centers the box with some margin */
   display: block;          /* Prevent flex from collapsing layout */
