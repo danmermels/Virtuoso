@@ -39,7 +39,7 @@ app.post('/api/tasks', (req, res) => {
     .prepare('INSERT INTO tasks (title, completed, mode, points) VALUES (?, ?, ?, ?)')
     .run(title, 0, mode === 1 ? 1 : 0, points ?? 1);
   
-  res.json({ id: result.lastInsertRowid, title, completed: 0, mode: mode === 1 ? 1 : 0, points || 1 });
+  res.json({ id: result.lastInsertRowid, title, completed: 0, mode: mode === 1 ? 1 : 0, points ?? 1 });
 });
 
 // Fallback to frontend for SPA routing
