@@ -36,6 +36,11 @@ h1 {
   margin: 1rem 0 0.5rem;
 }
 
+h2 {
+  text-align: center;
+  margin: 1rem 0 0.5rem;
+}
+
 /* Task list scrollable area */
 .task-list-container {
   flex: 1;
