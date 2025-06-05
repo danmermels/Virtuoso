@@ -18,7 +18,7 @@ db.prepare(`
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     title TEXT NOT NULL,
     completed INTEGER NOT NULL DEFAULT 0
-	modo BOOLEAN DEFAULT 0
+	compy INTEGER NOT NULL DEFAULT 0
   )
 `).run();
 
