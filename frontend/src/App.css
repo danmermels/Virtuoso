@@ -1,7 +1,7 @@
 /* Background and centering */
 body {
   margin: 0;
-  background-color: #e0e0e0; /* light grey */
+  background-color: #71797E; /* light grey */
   display: flex;
   justify-content: center;
   align-items: flex-start;
@@ -77,7 +77,7 @@ h1 {
   padding: 1rem;
   padding-bottom: 2rem; /* extra space */
   border-top: 1px solid #ccc;
-  background: #71797E;
+  background: #f8f8f8;
   position: fixed;
   bottom: 0;
   left: 0;
