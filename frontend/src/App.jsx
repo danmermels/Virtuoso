@@ -4,7 +4,7 @@ import './App.css';
 function App() {
   const [tasks, setTasks] = useState([]);
   const [newTitle, setNewTitle] = useState('');
-  const [mode, setmode] = useState(0); // 0 = daily, 1 = monthly
+  const [mode, setMode] = useState(0); // 0 = daily, 1 = monthly
   const [points, setPoints] = useState(1);
 
   useEffect(() => {
@@ -23,10 +23,12 @@ function App() {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ title: newTitle.trim(), mode, points }),
     });
+
     if (res.ok) {
       const created = await res.json();
-      setTasks((tasks) => [...tasks, created]);
+      setTasks(tasks => [...tasks, created]);
       setNewTitle('');
+      setPoints(1);
     }
   };
 
@@ -49,55 +51,54 @@ function App() {
   return (
     <div className="app">
       <h1>Tasks</h1>
-	 <form onSubmit={handleSubmit} className="task-form">
- 	   <input
-		 value={newTitle}
-	   	 onChange={(e) => setNewTitle(e.target.value)}
-		 placeholder="New task title"
-		 required
-	   />
-	   <select value={mode} onChange={(e) => setmode(Number(e.target.value))}>
-		 <option value={0}>Daily</option>
-		 <option value={1}>Monthly</option>
-	   </select>
-	   <button type="submit">Add</button>
-	   <input
-  type="number"
-  value={points}
-  onChange={(e) => setPoints(Number(e.target.value))}
-  placeholder="Points"
-/>
-	 </form>
+
+      <form onSubmit={handleSubmit} className="task-form">
+        <input
+          value={newTitle}
+          onChange={(e) => setNewTitle(e.target.value)}
+          placeholder="New task title"
+          required
+        />
+        <select value={mode} onChange={(e) => setMode(Number(e.target.value))}>
+          <option value={0}>Daily</option>
+          <option value={1}>Monthly</option>
+        </select>
+        <input
+          type="number"
+          value={points}
+          onChange={(e) => setPoints(Number(e.target.value))}
+          placeholder="Points"
+          min={1}
+        />
+        <button type="submit">Add</button>
+      </form>
 
       {tasks.length === 0 ? (
         <p>No tasks found.</p>
       ) : (
-        <ul className="task-list">
- {[0, 1].map(mode => (
-  <div key={mode}>
-    <h2>{mode === 0 ? 'Daily Tasks' : 'Monthly Tasks'}</h2>
-    <ul className="task-list">
-      {tasks
-        .filter(task => task.mode === mode)
-        .map(task => (
-          <li key={task.id} className="task-item">
-            <span className={task.completed ? 'done' : ''}>
-              {task.title}
-			  <span className="task-points">[{task.points} pts]</span>
-            </span>
-            <span className="task-buttons">
-              {!task.completed && (
-                <button onClick={() => handleComplete(task.id)}>Complete</button>
-              )}
-              <button onClick={() => handleDelete(task.id)}>Delete</button>
-            </span>
-          </li>
-        ))}
-    </ul>
-  </div>
-))}
-
-</ul>
+        [0, 1].map(groupMode => (
+          <div key={groupMode}>
+            <h2>{groupMode === 0 ? 'Daily Tasks' : 'Monthly Tasks'}</h2>
+            <ul className="task-list">
+              {tasks
+                .filter(task => task.mode === groupMode)
+                .map(task => (
+                  <li key={task.id} className="task-item">
+                    <span className={task.completed ? 'done' : ''}>
+                      {task.title}
+                      <span className="task-points"> [{task.points} pts]</span>
+                    </span>
+                    <span className="task-buttons">
+                      {!task.completed && (
+                        <button onClick={() => handleComplete(task.id)}>Complete</button>
+                      )}
+                      <button onClick={() => handleDelete(task.id)}>Delete</button>
+                    </span>
+                  </li>
+                ))}
+            </ul>
+          </div>
+        ))
       )}
     </div>
   );
