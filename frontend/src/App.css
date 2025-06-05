@@ -1,9 +1,20 @@
+/* Background and centering */
+body {
+  margin: 1;
+  background-color: #e0e0e0; /* light grey */
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  min-height: 100vh;
+  font-family: sans-serif;
+}
+
 /* Main white box container */
 .app {
   background: white;
   width: 100%;
   max-width: 1200px;
-  min-height: 100vh;
+  min-height: 95vh;
   display: flex;
   flex-direction: column;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
@@ -13,17 +24,6 @@
   .app {
     width: 100%;
   }
-}
-
-/* Background and centering */
-body {
-  margin: 10;
-  background-color: #e0e0e0; /* light grey */
-  display: flex;
-  justify-content: center;
-  align-items: flex-start;
-  min-height: 100vh;
-  font-family: sans-serif;
 }
 
 h1 {
