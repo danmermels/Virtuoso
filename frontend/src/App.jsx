@@ -84,18 +84,19 @@ function App() {
                 .filter(task => task.mode === mode)
                 .map(task => (
                   <li key={task.id} className="task-item">
-                    {/* Completion checkbox (only one needed) */}
+                    
+					{/* Task title and points */}
+                    <span className={task.completed ? 'done' : ''}>
+                      {task.title}
+                      <span className="task-points">[{task.points} pts]</span>
+                    </span>
+					
+					{/* Completion checkbox (only one needed) */}
                     <input
                       type="checkbox"
                       checked={task.completed}
                       onChange={() => handleToggle(task.id, !task.completed)}
                     />
-
-                    {/* Task title and points */}
-                    <span className={task.completed ? 'done' : ''}>
-                      {task.title}
-                      <span className="task-points">[{task.points} pts]</span>
-                    </span>
 
                     {/* Delete button */}
                     <span className="task-buttons">
