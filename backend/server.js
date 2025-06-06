@@ -20,7 +20,7 @@ db.prepare(`
   )
 `).run();
 
-// GET /api/tasks - list all tasks
+// GET /api/tasks - list all tasks.
 app.get('/api/tasks', (req, res) => {
   const tasks = db.prepare('SELECT * FROM tasks').all();
   res.json(tasks);
