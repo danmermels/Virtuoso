@@ -75,6 +75,8 @@ app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, 'public/index.html'));
 });
 
+console.log(`Task ${id} set to completed: ${completed}`);
+
 // Start server
 app.listen(3000, '0.0.0.0', () => {
   console.log('Virtuoso listening on http://0.0.0.0:3000');
