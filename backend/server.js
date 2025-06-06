@@ -17,7 +17,15 @@ db.prepare(`
     completed BOOLEAN DEFAULT 0,
     mode BOOLEAN DEFAULT 0,
     points INTEGER DEFAULT 10
-  )
+  );
+  CREATE TABLE IF NOTEXISTS daily-task-history  (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    task_id INTEGER,
+    date TEXT,
+    completed INTEGER,
+    points INTEGER
+  );
+
 `).run();
 
 // GET /api/tasks - list all tasks.
