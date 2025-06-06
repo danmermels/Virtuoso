@@ -7,6 +7,7 @@ function App() {
   const [mode, setMode] = useState(0); // 0 = daily, 1 = monthly
   const [points, setPoints] = useState(1);
 
+  // Fetch tasks on initial load
   useEffect(() => {
     fetch('/api/tasks')
       .then(res => res.json())
@@ -14,6 +15,7 @@ function App() {
       .catch(console.error);
   }, []);
 
+  // Submit new task
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!newTitle.trim()) return;
@@ -33,22 +35,24 @@ function App() {
     }
   };
 
- const handleToggle = async (id, completed) => {
-   const res = await fetch(`/api/tasks/${id}/complete`, {
-     method: 'POST',
-     headers: { 'Content-Type': 'application/json' },
-     body: JSON.stringify({ completed }),
-   });
+  // Toggle task completion via checkbox
+  const handleToggle = async (id, completed) => {
+    const res = await fetch(`/api/tasks/${id}/complete`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ completed }),
+    });
 
-   if (res.ok) {
-     setTasks(tasks =>
-       tasks.map(t =>
-         t.id === id ? { ...t, completed } : t
-       )
-     );
-   }
- };
+    if (res.ok) {
+      setTasks(tasks =>
+        tasks.map(t =>
+          t.id === id ? { ...t, completed } : t
+        )
+      );
+    }
+  };
 
+  // Unused legacy handler (safe to delete)
   const handleComplete = async (id) => {
     const res = await fetch(`/api/tasks/${id}/complete`, { method: 'POST' });
     if (res.ok) {
@@ -58,6 +62,7 @@ function App() {
     }
   };
 
+  // Delete task
   const handleDelete = async (id) => {
     const res = await fetch(`/api/tasks/${id}`, { method: 'DELETE' });
     if (res.ok) {
@@ -69,6 +74,7 @@ function App() {
     <div className="app">
       <h1>Tasks</h1>
 
+      {/* Scrollable container for both daily and monthly task lists */}
       <div className="task-list-container">
         {[0, 1].map(mode => (
           <div key={mode}>
@@ -78,16 +84,21 @@ function App() {
                 .filter(task => task.mode === mode)
                 .map(task => (
                   <li key={task.id} className="task-item">
+                    {/* Completion checkbox (only one needed) */}
+                    <input
+                      type="checkbox"
+                      checked={task.completed}
+                      onChange={() => handleToggle(task.id, !task.completed)}
+                    />
+
+                    {/* Task title and points */}
                     <span className={task.completed ? 'done' : ''}>
                       {task.title}
                       <span className="task-points">[{task.points} pts]</span>
                     </span>
+
+                    {/* Delete button */}
                     <span className="task-buttons">
-                      <input
-                         type="checkbox"
-                         checked={task.completed}
-                         onChange={() => handleToggle(task.id, !task.completed)}
-                       />
                       <button onClick={() => handleDelete(task.id)}>Delete</button>
                     </span>
                   </li>
@@ -97,6 +108,7 @@ function App() {
         ))}
       </div>
 
+      {/* Fixed form to add new tasks */}
       <form onSubmit={handleSubmit} className="task-form">
         <input
           value={newTitle}
