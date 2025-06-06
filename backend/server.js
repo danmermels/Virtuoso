@@ -1,13 +1,10 @@
 const express = require('express');
 const Database = require('better-sqlite3');
 const path = require('path');
+const cron = require('node-cron');
 
 const app = express();
 const db = new Database(path.join(__dirname, 'data.db'));
-
-// Serve frontend
-app.use(express.static(path.join(__dirname, 'public')));
-app.use(express.json());
 
 // Ensure table exists
 db.prepare(`
@@ -17,22 +14,51 @@ db.prepare(`
     completed BOOLEAN DEFAULT 0,
     mode BOOLEAN DEFAULT 0,
     points INTEGER DEFAULT 10
-  );
-  CREATE TABLE IF NOTEXISTS daily-task-history  (
+  )
+`).run();
+
+db.prepare(`
+  CREATE TABLE IF NOT EXISTS daily_task_history (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     task_id INTEGER,
     date TEXT,
     completed INTEGER,
     points INTEGER
-  );
-
+  )
 `).run();
+
+// Schedule a job to run every day at midnight
+cron.schedule('0 0 * * *', () => {
+  const today = new Date().toISOString().slice(0, 10);
+
+// Get all daily tasks (mode === 0)
+  const dailyTasks = db.prepare('SELECT * FROM tasks WHERE mode = 0').all();
+
+  for (const task of dailyTasks) {
+    // Record the completion state in history
+    db.prepare(
+      'INSERT INTO daily_task_history (task_id, date, completed, points) VALUES (?, ?, ?, ?)'
+    ).run(task.id, today, task.completed ? 1 : 0, task.points);
+
+    // Reset completion
+    db.prepare('UPDATE tasks SET completed = 0 WHERE id = ?').run(task.id);
+  }
+
+  console.log('Daily tasks reset and history recorded for', today);
+});
+
+// Serve frontend
+app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.json());
 
 // GET /api/tasks - list all tasks.
 app.get('/api/tasks', (req, res) => {
   const tasks = db.prepare('SELECT * FROM tasks').all();
   res.json(tasks);
 });
+
+// Get all daily tasks (mode === 0)
+const dailyTasks = db.prepare('SELECT * FROM tasks WHERE mode = 0').all();
 
 // POST /api/tasks - add a task
 app.post('/api/tasks', (req, res) => {
