@@ -33,6 +33,22 @@ function App() {
     }
   };
 
+ const handleToggle = async (id, completed) => {
+   const res = await fetch(`/api/tasks/${id}/complete`, {
+     method: 'POST',
+     headers: { 'Content-Type': 'application/json' },
+     body: JSON.stringify({ completed }),
+   });
+
+   if (res.ok) {
+     setTasks(tasks =>
+       tasks.map(t =>
+         t.id === id ? { ...t, completed } : t
+       )
+     );
+   }
+ };
+
   const handleComplete = async (id) => {
     const res = await fetch(`/api/tasks/${id}/complete`, { method: 'POST' });
     if (res.ok) {
@@ -67,9 +83,11 @@ function App() {
                       <span className="task-points">[{task.points} pts]</span>
                     </span>
                     <span className="task-buttons">
-                      {!task.completed && (
-                        <button onClick={() => handleComplete(task.id)}>Complete</button>
-                      )}
+                      <input
+                         type="checkbox"
+                         checked={task.completed}
+                         onChange={() => handleToggle(task.id, !task.completed)}
+                       />
                       <button onClick={() => handleDelete(task.id)}>Delete</button>
                     </span>
                   </li>

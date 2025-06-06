@@ -50,14 +50,16 @@ app.post('/api/tasks', (req, res) => {
 // POST /api/tasks/:id/complete - mark task as complete
 app.post('/api/tasks/:id/complete', (req, res) => {
   const { id } = req.params;
+  const { completed } = req.body;
+  
   const stmt = db.prepare('UPDATE tasks SET completed = 1 WHERE id = ?');
-  const info = stmt.run(id);
+  const info = stmt.run(completed ? 1 : 0, id);
 
   if (info.changes === 0) {
     return res.status(404).json({ error: 'Task not found' });
   }
 
-  res.status(200).json({ id: Number(id), completed: true });
+  res.status(200).json({ id: Number(id), completed: !!completed });
 });
 
 // DELETE /api/tasks/:id - delete a task
