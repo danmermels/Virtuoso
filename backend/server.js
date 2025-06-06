@@ -51,7 +51,9 @@ app.post('/api/tasks', (req, res) => {
 app.post('/api/tasks/:id/complete', (req, res) => {
   const { id } = req.params;
   const { completed } = req.body;
-  
+    
+  console.log(`Task ${id} set to completed: ${completed}`);
+
   const stmt = db.prepare('UPDATE tasks SET completed = ? WHERE id = ?');
   const info = stmt.run(completed ? 1 : 0, id);
 
@@ -74,8 +76,6 @@ app.delete('/api/tasks/:id', (req, res) => {
 app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, 'public/index.html'));
 });
-
-console.log(`Task ${id} set to completed: ${completed}`);
 
 // Start server
 app.listen(3000, '0.0.0.0', () => {
