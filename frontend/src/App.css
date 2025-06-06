@@ -59,7 +59,7 @@ h2 {
 
 .task-item {
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
   margin: 0.4rem 0;
 }
