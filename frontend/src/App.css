@@ -116,3 +116,12 @@ h2 {
 .mode-checkbox {
   white-space: nowrap;
 }
+
+/* Points counter styling */
+.points-counter {
+  text-align: center;
+  font-size: 1.3rem;
+  font-weight: 500;
+  margin-bottom: 1rem;
+  color: #2d3a4a;
+}
