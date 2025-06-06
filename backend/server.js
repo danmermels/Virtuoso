@@ -52,7 +52,7 @@ app.post('/api/tasks/:id/complete', (req, res) => {
   const { id } = req.params;
   const { completed } = req.body;
   
-  const stmt = db.prepare('UPDATE tasks SET completed = 1 WHERE id = ?');
+  const stmt = db.prepare('UPDATE tasks SET completed = ? WHERE id = ?');
   const info = stmt.run(completed ? 1 : 0, id);
 
   if (info.changes === 0) {
