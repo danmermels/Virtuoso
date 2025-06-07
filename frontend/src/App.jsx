@@ -84,7 +84,7 @@ function App() {
     <div className="app">
       <h1>TO DO</h1>
       <div className="points-counter">
-       Total Points: {tasks.reduce((sum, t) => t.completed ? sum + t.points : sum, 0)}
+       Total Points: {tasks.reduce((sum, t) => t.completed ? sum + t.points : sum, 0)} {   }
         Lifetime Daily Points: {historySummary.completed} / {historySummary.possible}
       today: {historySummary.todayCompleted} / {historySummary.todayPossible}
         Today's Points: {historySummary.todayCompleted} / {historySummary.todayPossible}    
