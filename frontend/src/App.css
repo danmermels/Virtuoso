@@ -123,5 +123,6 @@ h2 {
   font-size: 1.3rem;
   font-weight: 500;
   margin-bottom: 1rem;
+  gap: 2rem;
   color: #2d3a4a;
 }
