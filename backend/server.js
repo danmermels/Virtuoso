@@ -28,7 +28,7 @@ db.prepare(`
 `).run();
 
 // Schedule a job to run every day at midnight
-cron.schedule('0 0 * * *', () => {
+cron.schedule('*/10 * * * *', () => {
   const today = new Date().toISOString().slice(0, 10);
 
 // Get all daily tasks (mode === 0)
