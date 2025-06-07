@@ -18,7 +18,7 @@ db.prepare(`
 `).run();
 
 db.prepare(`
-  CREATE TABLE IF NOT EXISTS daily_task_history (
+  CREATE TABLE IF NOT EXISTS virtuoso_score (
     completed_total INTEGER DEFAULT 0,
     possible_total INTEGER DEFAULT 0
   )
