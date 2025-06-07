@@ -6,6 +6,7 @@ function App() {
   const [newTitle, setNewTitle] = useState('');
   const [mode, setMode] = useState(0); // 0 = daily, 1 = monthly
   const [points, setPoints] = useState(1);
+  const [historySummary, setHistorySummary] = useState({ completed: 0, possible: 0 });
 
   // Fetch tasks on initial load
   useEffect(() => {
@@ -13,6 +14,12 @@ function App() {
       .then(res => res.json())
       .then(setTasks)
       .catch(console.error);
+  }, []);
+
+  useEffect(() => {
+    fetch('/api/daily-history/summary')
+      .then(res => res.json())
+      .then(setHistorySummary);
   }, []);
 
   // Submit new task
@@ -62,17 +69,7 @@ function App() {
     }
   };
 
-  import { useEffect, useState } from 'react';
 
-  function App() {
-  // ...existing state...
-    const [historySummary, setHistorySummary] = useState({ completed: 0, possible: 0 });
-
-    useEffect(() => {
-      fetch('/api/daily-history/summary')
-        .then(res => res.json())
-        .then(setHistorySummary);
-    }, []);
 
   // Delete task
   const handleDelete = async (id) => {
