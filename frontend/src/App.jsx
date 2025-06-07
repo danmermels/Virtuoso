@@ -22,6 +22,19 @@ function App() {
       .then(setHistorySummary);
   }, []);
 
+    // Calculate today's completed and possible points from current tasks
+  const todayCompleted = tasks
+    .filter(t => t.mode === 0 && t.completed)
+    .reduce((sum, t) => sum + t.points, 0);
+
+  const todayPossible = tasks
+    .filter(t => t.mode === 0)
+    .reduce((sum, t) => sum + t.points, 0);
+
+  // Combine with historic values
+  const totalCompleted = (historySummary.completed || 0) + todayCompleted;
+  const totalPossible = (historySummary.possible || 0) + todayPossible;
+
   // Submit new task
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -59,18 +72,6 @@ function App() {
     }
   };
 
-  // Unused legacy handler (safe to delete)
-  const handleComplete = async (id) => {
-    const res = await fetch(`/api/tasks/${id}/complete`, { method: 'POST' });
-    if (res.ok) {
-      setTasks(tasks =>
-        tasks.map(t => (t.id === id ? { ...t, completed: true } : t))
-      );
-    }
-  };
-
-
-
   // Delete task
   const handleDelete = async (id) => {
     const res = await fetch(`/api/tasks/${id}`, { method: 'DELETE' });
@@ -102,20 +103,17 @@ function App() {
                 .filter(task => task.mode === mode)
                 .map(task => (
                   <li key={task.id} className="task-item">
-                    
-					{/* Task title and points */}
+                    {/* Task title and points */}
                     <span className={task.completed ? 'done' : ''}>
                       {task.title}
                       <span className="task-points">[{task.points} pts]</span>
                     </span>
-					
-					{/* Completion checkbox (only one needed) */}
+					          {/* Completion checkbox (only one needed) */}
                     <input
                       type="checkbox"
                       checked={task.completed}
                       onChange={() => handleToggle(task.id, !task.completed)}
                     />
-
                     {/* Delete button */}
                     <span className="task-buttons">
                       <button onClick={() => handleDelete(task.id)}>Delete</button>
