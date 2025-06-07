@@ -80,14 +80,25 @@ function App() {
     }
   };
 
+  const dailyCompleted = tasks
+    .filter(t => t.mode === 0 && t.completed)
+    .reduce((sum, t) => sum + t.points, 0);
+  const dailyPossible = tasks
+    .filter(t => t.mode === 0)
+    .reduce((sum, t) => sum + t.points, 0);
+const monthlyCompleted = tasks
+    .filter(t => t.mode === 1 && t.completed)
+    .reduce((sum, t) => sum + t.points, 0); 
+const monthlyPossible = tasks
+    .filter(t => t.mode === 1)
+    .reduce((sum, t) => sum + t.points, 0);
+
   return (
     <div className="app">
       <h1>TO DO</h1>
       <div className="points-counter">
-       Daily Points: {tasks.reduce((sum, t) => t.completed ? sum + t.points : sum, 0)} / 
-                     {tasks.reduce((sum, t) => tasks ? sum + t.points : sum, 0)} {      }
-       Monthly Points: {historySummary.completed} / 
-                       {tasks.reduce((sum, t) => t.mode ? sum + t.points : sum, 0)} 
+       Daily Points: {dailyCompleted} / {dailyPossible}
+       Monthly Points: {monthlyCompleted} / {monthlyPossible}
       </div>
       {/* Scrollable container for both daily and monthly task lists */}
       <div className="task-list-container">
