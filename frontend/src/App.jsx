@@ -20,7 +20,7 @@ function App() {
         .catch(console.error);
     };
     fetchTasks();
-    const interval = setInterval(fetchTasks, 10000);
+    const interval = setInterval(fetchTasks, 500);
     return () => clearInterval(interval);
   }, []);
 
