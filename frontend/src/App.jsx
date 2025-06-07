@@ -46,9 +46,22 @@ const monthlyPossible = tasks
     .filter(t => t.mode === 1)
     .reduce((sum, t) => sum + t.points, 0);
 
-  // Combine with historic values
-  const totalCompleted = (historySummary.completed || 0) + dailyCompleted;
-  const totalPossible = (historySummary.possible || 0) + dailyPossible;
+ const [virtuosoScore, setVirtuosoScore] = useState({ completed_total: 0, possible_total: 0 });
+
+ const fetchVirtuosoScore = () => {
+  fetch('/api/virtuoso-score')
+    .then(res => res.json())
+    .then(setVirtuosoScore);
+};
+  useEffect(() => {
+    fetchVirtuosoScore();
+    const interval = setInterval(fetchVirtuosoScore, 10000);
+    return () => clearInterval(interval);
+  }, []);
+
+  const totalCompleted = (virtuosoScore.completed_total || 0) + dailyCompleted;
+const totalPossible = (virtuosoScore.possible_total || 0) + dailyPossible;
+
   // Submit new task
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -66,6 +79,7 @@ const monthlyPossible = tasks
       setNewTitle('');
       setPoints(1);
       setMode(0);
+      fetchVirtuosoScore();
     }
   };
 
@@ -83,6 +97,7 @@ const monthlyPossible = tasks
           t.id === id ? { ...t, completed } : t
         )
       );
+      fetchVirtuosoScore();
     }
   };
 
@@ -91,6 +106,7 @@ const monthlyPossible = tasks
     const res = await fetch(`/api/tasks/${id}`, { method: 'DELETE' });
     if (res.ok) {
       setTasks(tasks => tasks.filter(t => t.id !== id));
+      fetchVirtuosoScore();
     }
   };
 
@@ -100,7 +116,7 @@ const monthlyPossible = tasks
     <div className="app">
       <h1>TO DO</h1>
       <div className="points-counter">    
-        VIRTUOSO SCORE: {historySummary.completed} / {historySummary.possible}
+        VIRTUOSO SCORE: {totalCompleted} / {totalPossible}
       </div>
 
       <div className="points-counter">

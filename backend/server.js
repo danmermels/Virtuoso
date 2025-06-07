@@ -19,38 +19,37 @@ db.prepare(`
 
 db.prepare(`
   CREATE TABLE IF NOT EXISTS daily_task_history (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    task_id INTEGER,
-    date TEXT,
-    completed INTEGER,
-    points INTEGER
+    completed_total INTEGER DEFAULT 0,
+    possible_total INTEGER DEFAULT 0
   )
 `).run();
 
+// Ensure a row exists
+if (!db.prepare('SELECT 1 FROM virtuoso_score WHERE id = 1').get()) {
+  db.prepare('INSERT INTO virtuoso_score (id, completed_total, possible_total) VALUES (1, 0, 0)').run();
+}
+
 // Schedule a job to run every day at midnight
 cron.schedule('*/10 * * * * *', () => {
-  const today = new Date().toISOString().slice(0, 10);
-
-// Get all daily tasks (mode === 0)
+  // Get all daily tasks
   const dailyTasks = db.prepare('SELECT * FROM tasks WHERE mode = 0').all();
+  
+  const completed = dailyTasks.filter(t => t.completed).reduce((sum, t) => sum + t.points, 0);
+  const possible = dailyTasks.reduce((sum, t) => sum + t.points, 0);
 
-  for (const task of dailyTasks) {
-    // Only insert if not already present for today
-    
-      db.prepare(
-        'INSERT INTO daily_task_history (task_id, date, completed, points) VALUES (?, ?, ?, ?)'
-      ).run(task.id, today, task.completed ? 1 : 0, task.points);
-    
+    // Update running totals
+  db.prepare(`
+    UPDATE virtuoso_score
+    SET completed_total = completed_total + ?,
+        possible_total = possible_total + ?
+    WHERE id = 1
+  `).run(completed, possible);
 
-    db.prepare('UPDATE tasks SET completed = 0 WHERE id = ?').run(task.id);
-  }
+  // Reset daily tasks
+  db.prepare('UPDATE tasks SET completed = 0 WHERE mode = 0').run();
 
-  console.log('Daily tasks reset and history recorded for', today);
-  const history = db.prepare('SELECT * FROM daily_task_history ORDER BY id DESC LIMIT 5').all();
-  console.log('Recent history:', history);
+  console.log('Virtuoso score updated:', { completed, possible });
 });
-
-
 
 // Serve frontend
 app.use(express.static(path.join(__dirname, 'public')));
