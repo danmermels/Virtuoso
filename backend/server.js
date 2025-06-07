@@ -19,6 +19,7 @@ db.prepare(`
 
 db.prepare(`
   CREATE TABLE IF NOT EXISTS virtuoso_score (
+    id INTEGER PRIMARY KEY CHECK (id = 1),
     completed_total INTEGER DEFAULT 0,
     possible_total INTEGER DEFAULT 0
   )
