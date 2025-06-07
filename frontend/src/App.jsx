@@ -47,9 +47,8 @@ const monthlyPossible = tasks
     .reduce((sum, t) => sum + t.points, 0);
 
   // Combine with historic values
-  const totalCompleted = (historySummary.completed === 0);
-  const totalPossible = (historySummary.possible === 0);
-
+  const totalCompleted = (historySummary.completed || 0) + dailyCompleted;
+  const totalPossible = (historySummary.possible || 0) + dailyPossible;
   // Submit new task
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -101,7 +100,7 @@ const monthlyPossible = tasks
     <div className="app">
       <h1>TO DO</h1>
       <div className="points-counter">    
-        VIRTUOSO SCORE: {historySummary.completed} / {historySummary.possible}  
+        VIRTUOSO SCORE: {totalCompleted} / {totalPossible}
       </div>
 
       <div className="points-counter">
