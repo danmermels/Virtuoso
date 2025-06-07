@@ -57,6 +57,10 @@ function App() {
   const totalCompleted = (virtuosoScore.completed_total || 0) + dailyCompleted;
   const totalPossible = (virtuosoScore.possible_total || 0) + dailyPossible;
 
+  // Combine historic, daily, and monthly points for display
+  const extendedCompleted = (virtuosoScore.completed_total || 0) + dailyCompleted + monthlyCompleted;
+  const extendedPossible = (virtuosoScore.possible_total || 0) + dailyPossible + monthlyPossible;
+
   // Add a new task
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -107,7 +111,7 @@ function App() {
       <h1>TO DO</h1>
       {/* Virtuoso Score: running total + today's progress */}
       <div className="points-counter">
-        VIRTUOSO SCORE: {totalCompleted} / {totalPossible}
+        VIRTUOSO SCORE: {extendedCompleted} / {extendedPossible}
       </div>
       {/* Show today's and monthly progress */}
       <div className="points-counter">
