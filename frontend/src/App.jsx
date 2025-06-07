@@ -84,10 +84,9 @@ function App() {
     <div className="app">
       <h1>TO DO</h1>
       <div className="points-counter">
-       Total Points: {tasks.reduce((sum, t) => t.completed ? sum + t.points : sum, 0)} {   }
-       Lifetime Daily Points: {historySummary.completed} / {historySummary.possible} {   }
-       today: {historySummary.todayCompleted} / {historySummary.todayPossible} {   }
-       Today's Points: {historySummary.todayCompleted} / {historySummary.todayPossible}    
+       Daily Points: {tasks.reduce((sum, t) => t.completed ? sum + t.points : sum, 0)} / 
+                     {tasks.reduce((sum, t) => tasks ? sum + t.points : sum, 0)}{      }
+       Monthly Points: {historySummary.completed} / {historySummary.possible} {      } 
       </div>
       {/* Scrollable container for both daily and monthly task lists */}
       <div className="task-list-container">
