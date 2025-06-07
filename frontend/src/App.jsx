@@ -88,6 +88,10 @@ function App() {
       <div className="history-summary">
         Lifetime Daily Points: {historySummary.completed} / {historySummary.possible}
       </div>
+      today: {historySummary.todayCompleted} / {historySummary.todayPossible}
+      <div className="history-summary">
+        Today's Points: {historySummary.todayCompleted} / {historySummary.todayPossible}    
+      </div>
       {/* Scrollable container for both daily and monthly task lists */}
       <div className="task-list-container">
         {[0, 1].map(mode => (
