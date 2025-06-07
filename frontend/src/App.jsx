@@ -14,6 +14,15 @@ function App() {
       .then(res => res.json())
       .then(setTasks)
       .catch(console.error);
+        // Poll every 10 seconds
+  const interval = setInterval(() => {
+    fetch('/api/tasks')
+      .then(res => res.json())
+      .then(setTasks)
+      .catch(console.error);
+  }, 10000);
+
+  return () => clearInterval(interval);
   }, []);
 
   useEffect(() => {
