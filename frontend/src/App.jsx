@@ -23,17 +23,23 @@ function App() {
   }, []);
 
     // Calculate today's completed and possible points from current tasks
-  const todayCompleted = tasks
+const dailyCompleted = tasks
     .filter(t => t.mode === 0 && t.completed)
     .reduce((sum, t) => sum + t.points, 0);
-
-  const todayPossible = tasks
+  const dailyPossible = tasks
     .filter(t => t.mode === 0)
+    .reduce((sum, t) => sum + t.points, 0);
+    // Calculate Monthly's completed and possible points from current tasks
+const monthlyCompleted = tasks
+    .filter(t => t.mode === 1 && t.completed)
+    .reduce((sum, t) => sum + t.points, 0); 
+const monthlyPossible = tasks
+    .filter(t => t.mode === 1)
     .reduce((sum, t) => sum + t.points, 0);
 
   // Combine with historic values
-  const totalCompleted = (historySummary.completed || 0) + todayCompleted;
-  const totalPossible = (historySummary.possible || 0) + todayPossible;
+  const totalCompleted = (historySummary.completed === 0);
+  const totalPossible = (historySummary.possible === 0);
 
   // Submit new task
   const handleSubmit = async (e) => {
@@ -80,22 +86,15 @@ function App() {
     }
   };
 
-  const dailyCompleted = tasks
-    .filter(t => t.mode === 0 && t.completed)
-    .reduce((sum, t) => sum + t.points, 0);
-  const dailyPossible = tasks
-    .filter(t => t.mode === 0)
-    .reduce((sum, t) => sum + t.points, 0);
-const monthlyCompleted = tasks
-    .filter(t => t.mode === 1 && t.completed)
-    .reduce((sum, t) => sum + t.points, 0); 
-const monthlyPossible = tasks
-    .filter(t => t.mode === 1)
-    .reduce((sum, t) => sum + t.points, 0);
+  
 
   return (
     <div className="app">
       <h1>TO DO</h1>
+      <div className="points-counter">    
+        VIRTUOSO SCORE: {historySummary.completed} / {historySummary.possible}  
+      </div>
+
       <div className="points-counter">
        Daily Points: {dailyCompleted} / {dailyPossible}  -  Monthly Points: {monthlyCompleted} / {monthlyPossible}
       </div>
