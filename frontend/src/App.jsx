@@ -97,8 +97,7 @@ const monthlyPossible = tasks
     <div className="app">
       <h1>TO DO</h1>
       <div className="points-counter">
-       Daily Points: {dailyCompleted} / {dailyPossible} {  -  }
-       Monthly Points: {monthlyCompleted} / {monthlyPossible}
+       Daily Points: {dailyCompleted} / {dailyPossible}  -  Monthly Points: {monthlyCompleted} / {monthlyPossible}
       </div>
       {/* Scrollable container for both daily and monthly task lists */}
       <div className="task-list-container">
