@@ -2,77 +2,70 @@ import React, { useEffect, useState } from 'react';
 import './App.css';
 
 function App() {
+  // State for all tasks
   const [tasks, setTasks] = useState([]);
+  // State for new task form
   const [newTitle, setNewTitle] = useState('');
   const [mode, setMode] = useState(0); // 0 = daily, 1 = monthly
   const [points, setPoints] = useState(1);
-  const [historySummary, setHistorySummary] = useState({ completed: 0, possible: 0 });
+  // State for Virtuoso score (historic running total)
+  const [virtuosoScore, setVirtuosoScore] = useState({ completed_total: 0, possible_total: 0 });
 
-  // Fetch tasks on initial load
+  // Fetch all tasks from backend, initially and every 10 seconds
   useEffect(() => {
-    fetch('/api/tasks')
-      .then(res => res.json())
-      .then(setTasks)
-      .catch(console.error);
-        // Poll every 10 seconds
-  const interval = setInterval(() => {
-    fetch('/api/tasks')
-      .then(res => res.json())
-      .then(setTasks)
-      .catch(console.error);
-  }, 10000);
-
-  return () => clearInterval(interval);
+    const fetchTasks = () => {
+      fetch('/api/tasks')
+        .then(res => res.json())
+        .then(setTasks)
+        .catch(console.error);
+    };
+    fetchTasks();
+    const interval = setInterval(fetchTasks, 10000);
+    return () => clearInterval(interval);
   }, []);
 
-  useEffect(() => {
-    fetch('/api/daily-history/summary')
+  // Fetch Virtuoso score from backend, initially and every 10 seconds
+  const fetchVirtuosoScore = () => {
+    fetch('/api/virtuoso-score')
       .then(res => res.json())
-      .then(setHistorySummary);
-  }, []);
-
-    // Calculate today's completed and possible points from current tasks
-const dailyCompleted = tasks
-    .filter(t => t.mode === 0 && t.completed)
-    .reduce((sum, t) => sum + t.points, 0);
-  const dailyPossible = tasks
-    .filter(t => t.mode === 0)
-    .reduce((sum, t) => sum + t.points, 0);
-    // Calculate Monthly's completed and possible points from current tasks
-const monthlyCompleted = tasks
-    .filter(t => t.mode === 1 && t.completed)
-    .reduce((sum, t) => sum + t.points, 0); 
-const monthlyPossible = tasks
-    .filter(t => t.mode === 1)
-    .reduce((sum, t) => sum + t.points, 0);
-
- const [virtuosoScore, setVirtuosoScore] = useState({ completed_total: 0, possible_total: 0 });
-
- const fetchVirtuosoScore = () => {
-  fetch('/api/virtuoso-score')
-    .then(res => res.json())
-    .then(setVirtuosoScore);
-};
+      .then(setVirtuosoScore)
+      .catch(console.error);
+  };
   useEffect(() => {
     fetchVirtuosoScore();
     const interval = setInterval(fetchVirtuosoScore, 10000);
     return () => clearInterval(interval);
   }, []);
 
-  const totalCompleted = (virtuosoScore.completed_total || 0) + dailyCompleted;
-const totalPossible = (virtuosoScore.possible_total || 0) + dailyPossible;
+  // Calculate today's completed and possible points from current tasks
+  const dailyCompleted = tasks
+    .filter(t => t.mode === 0 && t.completed)
+    .reduce((sum, t) => sum + t.points, 0);
+  const dailyPossible = tasks
+    .filter(t => t.mode === 0)
+    .reduce((sum, t) => sum + t.points, 0);
 
-  // Submit new task
+  // Calculate monthly's completed and possible points from current tasks
+  const monthlyCompleted = tasks
+    .filter(t => t.mode === 1 && t.completed)
+    .reduce((sum, t) => sum + t.points, 0);
+  const monthlyPossible = tasks
+    .filter(t => t.mode === 1)
+    .reduce((sum, t) => sum + t.points, 0);
+
+  // Combine historic and today's points for display
+  const totalCompleted = (virtuosoScore.completed_total || 0) + dailyCompleted;
+  const totalPossible = (virtuosoScore.possible_total || 0) + dailyPossible;
+
+  // Add a new task
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!newTitle.trim()) return;
-
     const res = await fetch('/api/tasks', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ title: newTitle.trim(), mode, points }),
     });
-
     if (res.ok) {
       const created = await res.json();
       setTasks((tasks) => [...tasks, created]);
@@ -83,14 +76,13 @@ const totalPossible = (virtuosoScore.possible_total || 0) + dailyPossible;
     }
   };
 
-  // Toggle task completion via checkbox
+  // Toggle task completion
   const handleToggle = async (id, completed) => {
     const res = await fetch(`/api/tasks/${id}/complete`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ completed }),
     });
-
     if (res.ok) {
       setTasks(tasks =>
         tasks.map(t =>
@@ -101,7 +93,7 @@ const totalPossible = (virtuosoScore.possible_total || 0) + dailyPossible;
     }
   };
 
-  // Delete task
+  // Delete a task
   const handleDelete = async (id) => {
     const res = await fetch(`/api/tasks/${id}`, { method: 'DELETE' });
     if (res.ok) {
@@ -110,19 +102,19 @@ const totalPossible = (virtuosoScore.possible_total || 0) + dailyPossible;
     }
   };
 
-  
-
   return (
     <div className="app">
       <h1>TO DO</h1>
-      <div className="points-counter">    
+      {/* Virtuoso Score: running total + today's progress */}
+      <div className="points-counter">
         VIRTUOSO SCORE: {totalCompleted} / {totalPossible}
       </div>
-
+      {/* Show today's and monthly progress */}
       <div className="points-counter">
-       Daily Points: {dailyCompleted} / {dailyPossible}  -  Monthly Points: {monthlyCompleted} / {monthlyPossible}
+        Daily Points: {dailyCompleted} / {dailyPossible} &nbsp; - &nbsp;
+        Monthly Points: {monthlyCompleted} / {monthlyPossible}
       </div>
-      {/* Scrollable container for both daily and monthly task lists */}
+      {/* Task lists */}
       <div className="task-list-container">
         {[0, 1].map(mode => (
           <div key={mode}>
@@ -137,7 +129,7 @@ const totalPossible = (virtuosoScore.possible_total || 0) + dailyPossible;
                       {task.title}
                       <span className="task-points">[{task.points} pts]</span>
                     </span>
-					          {/* Completion checkbox (only one needed) */}
+                    {/* Completion checkbox */}
                     <input
                       type="checkbox"
                       checked={task.completed}
@@ -153,8 +145,7 @@ const totalPossible = (virtuosoScore.possible_total || 0) + dailyPossible;
           </div>
         ))}
       </div>
-
-      {/* Fixed form to add new tasks */}
+      {/* Form to add new tasks */}
       <form onSubmit={handleSubmit} className="task-form">
         <input
           value={newTitle}

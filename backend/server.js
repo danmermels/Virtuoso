@@ -49,7 +49,12 @@ cron.schedule('*/10 * * * * *', () => {
   // Reset daily tasks
   db.prepare('UPDATE tasks SET completed = 0 WHERE mode = 0').run();
 
-  console.log('Virtuoso score updated:', { complete_total, possible_total });
+  console.log('Virtuoso score updated:', { completed, possible });
+});
+
+app.get('/api/virtuoso-score', (req, res) => {
+  const row = db.prepare('SELECT completed_total, possible_total FROM virtuoso_score WHERE id = 1').get();
+  res.json(row || { completed_total: 0, possible_total: 0 });
 });
 
 // Serve frontend
