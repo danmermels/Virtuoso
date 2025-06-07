@@ -49,7 +49,7 @@ cron.schedule('*/10 * * * * *', () => {
   // Reset daily tasks
   db.prepare('UPDATE tasks SET completed = 0 WHERE mode = 0').run();
 
-  console.log('Virtuoso score updated:', { completed, possible });
+  console.log('Virtuoso score updated:', { complete_total, possible_total });
 });
 
 // Serve frontend
