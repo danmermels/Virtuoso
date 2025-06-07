@@ -98,6 +98,21 @@ app.post('/api/tasks/:id/complete', (req, res) => {
   res.status(200).json({ id: Number(id), completed: !!completed });
 });
 
+// GET /api/daily-history/summary - get total completed and possible points
+app.get('/api/daily-history/summary', (req, res) => {
+  // Sum of points for completed tasks
+  const completed = db.prepare(
+    'SELECT SUM(points) as total FROM daily_task_history WHERE completed = 1'
+  ).get().total || 0;
+
+  // Sum of all possible points (all rows)
+  const possible = db.prepare(
+    'SELECT SUM(points) as total FROM daily_task_history'
+  ).get().total || 0;
+
+  res.json({ completed, possible });
+});
+
 // DELETE /api/tasks/:id - delete a task
 app.delete('/api/tasks/:id', (req, res) => {
   const { id } = req.params;

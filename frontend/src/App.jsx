@@ -62,6 +62,18 @@ function App() {
     }
   };
 
+  import { useEffect, useState } from 'react';
+
+  function App() {
+  // ...existing state...
+    const [historySummary, setHistorySummary] = useState({ completed: 0, possible: 0 });
+
+    useEffect(() => {
+      fetch('/api/daily-history/summary')
+        .then(res => res.json())
+        .then(setHistorySummary);
+    }, []);
+
   // Delete task
   const handleDelete = async (id) => {
     const res = await fetch(`/api/tasks/${id}`, { method: 'DELETE' });
@@ -72,9 +84,12 @@ function App() {
 
   return (
     <div className="app">
-      <h1>Tasks</h1>
+      <h1>TO DO</h1>
       <div className="points-counter">
        Total Points: {tasks.reduce((sum, t) => t.completed ? sum + t.points : sum, 0)}
+      </div>
+      <div className="history-summary">
+        Lifetime Daily Points: {historySummary.completed} / {historySummary.possible}
       </div>
       {/* Scrollable container for both daily and monthly task lists */}
       <div className="task-list-container">
