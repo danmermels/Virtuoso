@@ -45,10 +45,11 @@ cron.schedule('*/10 * * * * *', () => {
   }
 
   console.log('Daily tasks reset and history recorded for', today);
+  const history = db.prepare('SELECT * FROM daily_task_history ORDER BY id DESC LIMIT 5').all();
+  console.log('Recent history:', history);
 });
 
-const history = db.prepare('SELECT * FROM daily_task_history ORDER BY id DESC LIMIT 5').all();
-console.log('Recent history:', history);
+
 
 // Serve frontend
 app.use(express.static(path.join(__dirname, 'public')));
