@@ -35,12 +35,17 @@ cron.schedule('*/10 * * * * *', () => {
   const dailyTasks = db.prepare('SELECT * FROM tasks WHERE mode = 0').all();
 
   for (const task of dailyTasks) {
-    // Record the completion state in history
-    db.prepare(
-      'INSERT INTO daily_task_history (task_id, date, completed, points) VALUES (?, ?, ?, ?)'
-    ).run(task.id, today, task.completed ? 1 : 0, task.points);
+    // Only insert if not already present for today
+    const exists = db.prepare(
+      'SELECT 1 FROM daily_task_history WHERE task_id = ? AND date = ?'
+    ).get(task.id, today);
 
-    // Reset completion
+    if (!exists) {
+      db.prepare(
+        'INSERT INTO daily_task_history (task_id, date, completed, points) VALUES (?, ?, ?, ?)'
+      ).run(task.id, today, task.completed ? 1 : 0, task.points);
+    }
+
     db.prepare('UPDATE tasks SET completed = 0 WHERE id = ?').run(task.id);
   }
 

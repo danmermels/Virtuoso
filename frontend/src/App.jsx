@@ -100,7 +100,7 @@ const monthlyPossible = tasks
     <div className="app">
       <h1>TO DO</h1>
       <div className="points-counter">    
-        VIRTUOSO SCORE: {totalCompleted} / {totalPossible}
+        VIRTUOSO SCORE: {historySummary.completed} / {historySummary.possible}
       </div>
 
       <div className="points-counter">
