@@ -176,6 +176,15 @@ function App() {
         <button type="submit">Add</button>
       </form>
     </div>
+    export default function App() {
+      return (
+        <div className="p-4">
+          <h1 className="text-3xl font-bold text-green-600">Tailwind Loaded</h1>
+          {/* your existing UI here */}
+        </div>
+      );
+    }
+
   );
 }
 
