@@ -1,13 +1,6 @@
 import React from "react";
 import { AddTaskForm } from "@/components/tasks/task-list"; // adjust import as needed
 
-type Task = {
-  id: string;
-  name: string;
-  weight: number;
-  type: "daily" | "monthly";
-  completed: boolean;
-};
 
 export default function App({
   tasks,
