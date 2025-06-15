@@ -6,5 +6,11 @@
   "alias": {
     "components": "@/components",
     "utils": "@/lib/utils"
+  },
+  "tailwind": {
+    "config": "tailwind.config.js",
+    "css": "src/index.css",
+    "baseColor": "slate",
+    "prefix": ""
   }
 }
