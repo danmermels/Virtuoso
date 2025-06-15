@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import './App.css';
+import './index.css';
 
 function App() {
   // State for all tasks
@@ -20,7 +21,7 @@ function App() {
         .catch(console.error);
     };
     fetchTasks();
-    const interval = setInterval(fetchTasks, 500);
+    const interval = setInterval(fetchTasks, 10000);
     return () => clearInterval(interval);
   }, []);
 
