@@ -1,7 +1,6 @@
 import React from "react";
 import { AddTaskForm } from "@/components/tasks/task-list"; // adjust import as needed
 
-// Example task type
 type Task = {
   id: string;
   name: string;
@@ -10,7 +9,7 @@ type Task = {
   completed: boolean;
 };
 
-export default function DailyHabitsCard({
+export default function App({
   tasks,
   onAddTask,
   onToggleTask,
