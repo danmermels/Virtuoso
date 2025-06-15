@@ -1,7 +1,23 @@
 import React from "react";
 import { AddTaskForm } from "@/components/tasks/task-list"; // adjust import as needed
 
-function DailyHabitsCard({ tasks, onAddTask, onToggleTask }) {
+// Define the Task type
+type Task = {
+  id: string;
+  name: string;
+  weight: number;
+  type: "daily" | "monthly";
+  completed: boolean;
+};
+
+// Define the DailyHabitsCardProps type
+type DailyHabitsCardProps = {
+  tasks: Task[];
+  onAddTask: (data: any) => void;
+  onToggleTask: (id: string) => void;
+};
+
+function DailyHabitsCard({ tasks, onAddTask, onToggleTask }: DailyHabitsCardProps) {
   return (
     <section className="bg-white rounded-xl shadow p-6">
       <div className="flex items-center gap-2 mb-4">
@@ -38,17 +54,17 @@ function DailyHabitsCard({ tasks, onAddTask, onToggleTask }) {
 }
 
 export default function App() {
-  const dailyTasks = [
+  const dailyTasks: Task[] = [
     { id: "1", name: "Drink water", weight: 1, type: "daily", completed: false },
     { id: "2", name: "Exercise", weight: 1, type: "daily", completed: true },
   ];
 
-  const handleAddTask = (data) => {
+  const handleAddTask = (data: any) => {
     console.log("Add task:", data);
     // Implement your add task logic here
   };
 
-  const handleToggleTask = (id) => {
+  const handleToggleTask = (id: string) => {
     console.log("Toggle task:", id);
     // Implement your toggle task logic here
   };
