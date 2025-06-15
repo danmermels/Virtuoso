@@ -2,15 +2,8 @@ import React from "react";
 import { AddTaskForm } from "@/components/tasks/task-list"; // adjust import as needed
 
 
-export default function App({
-  tasks,
-  onAddTask,
-  onToggleTask,
-}: {
-  tasks: Task[];
-  onAddTask: (data: any) => void;
-  onToggleTask: (id: string) => void;
-}) {
+export default function App({ tasks, onAddTask, onToggleTask }) {
+  
   return (
     <section className="bg-white rounded-xl shadow p-6">
       <div className="flex items-center gap-2 mb-4">
