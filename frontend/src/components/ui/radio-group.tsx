@@ -21,14 +21,14 @@ export function RadioGroup({ value, defaultValue, onValueChange, children, ...pr
 
   return (
     <div {...props} role="radiogroup">
-      {React.Children.map(children, child =>
-        React.isValidElement(child)
-          ? React.cloneElement(child, {
-              checked: child.props.value === selected,
-              onChange: () => handleChange(child.props.value),
-            })
-          : child
-      )}
+      {React.Children.map(children, child => {
+        if (!React.isValidElement(child)) return child;
+        const childProps = child.props as RadioGroupItemProps;
+        return React.cloneElement(child, {
+          checked: childProps.value === selected,
+          onChange: () => handleChange(childProps.value as string),
+        });
+      })}
     </div>
   );
 }

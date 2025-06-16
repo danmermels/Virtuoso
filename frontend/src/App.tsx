@@ -108,6 +108,7 @@ export default function App() {
           <AddTaskForm onAddTask={handleAddTask} />
         </DialogContent>
       </Dialog>
+      <div className="bg-red-500 text-white p-4 text-center">Test Tailwind</div>
     </div>
   );
 }
