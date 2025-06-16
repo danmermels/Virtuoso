@@ -1,5 +1,6 @@
 import * as React from "react";
 import { useFormContext, FormProvider, type UseFormReturn, Controller } from "react-hook-form";
+import type { ControllerRenderProps, ControllerFieldState, UseFormStateReturn, FieldValues } from "react-hook-form";
 
 export function Form({ children, ...props }: React.FormHTMLAttributes<HTMLFormElement>) {
   return (
@@ -7,7 +8,7 @@ export function Form({ children, ...props }: React.FormHTMLAttributes<HTMLFormEl
   );
 }
 
-export function FormField({ name, render }: { name: string; render: (field: any) => React.ReactNode }) {
+export function FormField({ name, render }: { name: string; render: (params: { field: ControllerRenderProps<FieldValues, string>, fieldState: ControllerFieldState, formState: UseFormStateReturn<FieldValues> }) => React.ReactElement }) {
   const { control } = useFormContext();
   return <Controller name={name} control={control} render={render} />;
 }
