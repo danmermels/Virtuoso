@@ -1,5 +1,7 @@
 import React, { useState } from "react";
-import { AddTaskForm } from "@/components/tasks/task-list"; // adjust import as needed
+import { FloatingAddButton } from "@/components/floating-add-button";
+import { Dialog, DialogContent } from "@/components/ui/dialog";
+import { AddTaskForm } from "@/components/tasks/task-list";
 
 // Define the Task type
 type Task = {
@@ -17,7 +19,7 @@ type DailyHabitsCardProps = {
   onToggleTask: (id: string) => void;
 };
 
-function DailyHabitsCard({ tasks, onAddTask, onToggleTask }: DailyHabitsCardProps) {
+function DailyHabitsCard({ tasks, onToggleTask }: Omit<DailyHabitsCardProps, 'onAddTask'>) {
   return (
     <section className="bg-white rounded-xl shadow p-6">
       <div className="flex items-center gap-2 mb-4">
@@ -46,9 +48,6 @@ function DailyHabitsCard({ tasks, onAddTask, onToggleTask }: DailyHabitsCardProp
           </div>
         ))}
       </div>
-      <div className="mt-6">
-        <AddTaskForm onAddTask={onAddTask} />
-      </div>
     </section>
   );
 }
@@ -58,23 +57,21 @@ export default function App() {
     { id: "1", name: "Drink water", weight: 1, type: "daily", completed: false },
     { id: "2", name: "Exercise", weight: 1, type: "daily", completed: true },
   ]);
+  const [showAddModal, setShowAddModal] = useState(false);
 
   const handleAddTask = (data: any) => {
-    console.log("Add task:", data);
-    // Implement your add task logic here
     const newTask: Task = {
-      id: Math.random().toString(), // Generate a unique ID
+      id: Math.random().toString(),
       name: data.name,
       weight: data.weight,
       type: data.type,
       completed: false,
     };
     setDailyTasks([...dailyTasks, newTask]);
+    setShowAddModal(false);
   };
 
   const handleToggleTask = (id: string) => {
-    console.log("Toggle task:", id);
-    // Implement your toggle task logic here
     setDailyTasks(
       dailyTasks.map((task) =>
         task.id === id ? { ...task, completed: !task.completed } : task
@@ -101,10 +98,15 @@ export default function App() {
         {/* Daily Habits */}
         <DailyHabitsCard
           tasks={dailyTasks}
-          onAddTask={handleAddTask}
           onToggleTask={handleToggleTask}
         />
       </main>
+      <FloatingAddButton onClick={() => setShowAddModal(true)} />
+      <Dialog open={showAddModal} onOpenChange={setShowAddModal}>
+        <DialogContent>
+          <AddTaskForm onAddTask={handleAddTask} />
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }
