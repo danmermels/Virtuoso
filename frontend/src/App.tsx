@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { FloatingAddButton } from "@/components/floating-add-button";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { AddTaskForm } from "@/components/tasks/task-list";
+import { LogoIcon } from "@/components/ui/logo-icon";
 
 // Define the Task type
 type Task = {
@@ -83,9 +84,9 @@ export default function App() {
     <div className="min-h-screen bg-gray-50">
       {/* Header */}
       <header className="flex items-center justify-between px-8 py-6 border-b bg-white shadow-sm">
-        <div className="flex items-center gap-2">
-          <span className="text-3xl">🎯</span>
-          <h1 className="text-3xl font-bold text-blue-900">Virtuoso</h1>
+        <div className="flex items-center gap-3">
+          <LogoIcon className="w-8 h-8 text-blue-900" />
+          <h1 className="text-3xl font-extrabold text-blue-900 tracking-tight">Virtuoso</h1>
         </div>
         <button className="flex items-center gap-1 text-gray-700 hover:text-blue-700">
           <span className="material-symbols-outlined">settings</span>

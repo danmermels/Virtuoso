@@ -30,7 +30,7 @@ interface AddTaskFormProps {
   onCancel?: () => void;
 }
 
-export const AddTaskForm: FC<AddTaskFormProps> = ({ onAddTask, onCancel }) => {
+const AddTaskForm: FC<AddTaskFormProps> = ({ onAddTask, onCancel }) => {
   const form = useForm<TaskFormData>({
     resolver: zodResolver(taskFormSchema),
     defaultValues: {
@@ -117,3 +117,5 @@ export const AddTaskForm: FC<AddTaskFormProps> = ({ onAddTask, onCancel }) => {
     </Form>
   );
 };
+
+export default AddTaskForm;
