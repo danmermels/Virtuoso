@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { FloatingAddButton } from "@/components/floating-add-button";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
-import { AddTaskForm } from "@/components/tasks/task-list";
+import AddTaskForm from "@/components/tasks/task-list";
 import { LogoIcon } from "@/components/ui/logo-icon";
 
 // Define the Task type
