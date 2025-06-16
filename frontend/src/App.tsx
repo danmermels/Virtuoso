@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { AddTaskForm } from "@/components/tasks/task-list"; // adjust import as needed
 
 // Define the Task type
@@ -54,19 +54,32 @@ function DailyHabitsCard({ tasks, onAddTask, onToggleTask }: DailyHabitsCardProp
 }
 
 export default function App() {
-  const dailyTasks: Task[] = [
+  const [dailyTasks, setDailyTasks] = useState<Task[]>([
     { id: "1", name: "Drink water", weight: 1, type: "daily", completed: false },
     { id: "2", name: "Exercise", weight: 1, type: "daily", completed: true },
-  ];
+  ]);
 
   const handleAddTask = (data: any) => {
     console.log("Add task:", data);
     // Implement your add task logic here
+    const newTask: Task = {
+      id: Math.random().toString(), // Generate a unique ID
+      name: data.name,
+      weight: data.weight,
+      type: data.type,
+      completed: false,
+    };
+    setDailyTasks([...dailyTasks, newTask]);
   };
 
   const handleToggleTask = (id: string) => {
     console.log("Toggle task:", id);
     // Implement your toggle task logic here
+    setDailyTasks(
+      dailyTasks.map((task) =>
+        task.id === id ? { ...task, completed: !task.completed } : task
+      )
+    );
   };
 
   return (
